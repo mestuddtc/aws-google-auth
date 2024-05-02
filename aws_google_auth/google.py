@@ -304,13 +304,13 @@ class Google:
         if "challenge/totp?" in sess.url:
             sess = self.handle_totp_new(sess, payload)
         elif "challenge/ipp?" in sess.url:
-            raise NotImplementedError('handle_dp not updated')
+            raise NotImplementedError('handle_ipp not updated')
         elif "challenge/az?" in sess.url:
-            raise NotImplementedError('handle_dp not updated')
+            raise NotImplementedError('handle_az not updated')
         elif "challenge/sk?" in sess.url:
-            raise NotImplementedError('handle_dp not updated')
+            raise NotImplementedError('handle_sk not updated')
         elif "challenge/iap?" in sess.url:
-            raise NotImplementedError('handle_dp not updated')
+            raise NotImplementedError('handle_iap not updated')
         elif "challenge/dp?" in sess.url:
             raise NotImplementedError('handle_dp not updated')
         elif "challenge/ootp/5" in sess.url:
