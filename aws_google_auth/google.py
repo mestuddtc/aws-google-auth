@@ -507,6 +507,16 @@ class Google:
         except NameError:
             captcha_input = input("Captcha (case insensitive): ") or None
 
+        # Add form inputs            
+        for tag in response_page.find_all('input'):
+            if tag.get('name') is None:
+                continue
+            payload[tag.get('name')] = tag.get('value')
+
+        # Set bg_response in request payload to passwd challenge
+        if self.config.bg_response:
+            payload['bgresponse'] = self.config.bg_response        
+
         # Update the payload
         payload['ca'] = captcha_input
 
