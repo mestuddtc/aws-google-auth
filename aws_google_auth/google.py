@@ -312,7 +312,7 @@ class Google:
         elif "challenge/iap?" in sess.url:
             raise NotImplementedError('handle_iap not updated')
         elif "challenge/dp?" in sess.url:
-            raise NotImplementedError('handle_dp not updated')
+            sess = self.handle_dp_new(sess)
         elif "challenge/ootp/5" in sess.url:
             raise NotImplementedError(
                 'Offline Google App OOTP not implemented')
@@ -864,6 +864,24 @@ class Google:
         input("Check your phone - after you have confirmed response press ENTER to continue.") or None
 
         form = response_page.find('form', {'id': 'challenge'})
+        challenge_url = 'https://accounts.google.com' + form.get('action')
+
+        payload = {}
+        for tag in form.find_all('input'):
+            if tag.get('name') is None:
+                continue
+
+            payload[tag.get('name')] = tag.get('value')
+
+        # Submit Configuration
+        return self.post(challenge_url, data=payload)
+
+    def handle_dp_new(self, sess):
+        response_page = BeautifulSoup(sess.text, 'html.parser')
+
+        input("Check your phone - after you have confirmed response press ENTER to continue.") or None
+
+        form = response_page.find('form')
         challenge_url = 'https://accounts.google.com' + form.get('action')
 
         payload = {}
